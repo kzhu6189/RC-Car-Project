@@ -1,0 +1,185 @@
+int pins[] = {2,3,4,5,6,7,8,9,10,11,12,13}; //intitalizing the pins
+int a1 = 0, a2 = 0, b1 = 0, b2 = 0, c1 = 0, c2 = 0, d1 = 0, d2 = 0; //variables for the inputs of the chips.
+String ans1 = "", ans2 = ""; //variables to hold the answers from the input in the serial monitor.
+  
+void setup() {
+  for (int i = 0; i < 12; i++){ //for loop to set the pins to OUTPUT.
+    pinMode(pins[i], OUTPUT);
+  }
+  Serial.begin(9600); //starts the serial monitor.
+}
+
+void loop() {
+  SerialMonitor(); //function to display the options to user.
+  SelectedOption1(); //function to run the selected option.
+}
+
+void SerialMonitor() {
+  Serial.println("Driving Modes: "); //prints the options.
+  Serial.println("1. Movement");
+  Serial.println("2. Coast");
+  Serial.println("3. Brake");
+  while (Serial.available() == 0){} //waits for input.
+  ans1 = Serial.readString(); //sets variable to the input.
+  Serial.println("You selected: "); //prints selected choice.
+  Serial.println(ans1);
+}
+
+void SelectedOption1() {
+  if (ans1 == "1"){ //movement function when 1 is selected.
+    Movement(); //function for movements besides coast and brake..
+    SelectedOption2(); //function to run selected movement option.
+  }
+  if (ans1 == "2"){ //coast function when 2 is selected.
+    Coast(); //function to coast.
+  }
+  if (ans1 == "3"){ //brake function when 3 is selected.
+    Brake(); //function to brake.
+  }
+}
+
+void Movement() {
+  Serial.println("Movement Options: "); //prints the movement options.
+  Serial.println("1. Point Turn Right");
+  Serial.println("2. Point Turn Left");
+  Serial.println("3. Swing Turn Right");
+  Serial.println("4. Swing Turn Left");
+  Serial.println("5. Forwards");
+  Serial.println("6. Backwards");
+  while (Serial.available() == 0){} //waits for input.
+  ans2 = Serial.readString(); //sets variable to input.
+  Serial.println("You selected: "); //prints choice.
+  Serial.println(ans2);
+}
+
+void SelectedOption2() {
+  if (ans2 == "1"){ //pointright function when 1 is selected.
+    PointRight(); //function for pointing right.
+  }
+  if (ans2 == "2"){ //pointleft function when 2 is selected.
+    PointLeft(); //function for pointing left.
+  }
+  if (ans2 == "3"){ //swingright function when 3 is selected.
+    SwingRight(); //function for swinging right.
+  }
+  if (ans2 == "4"){ //swingleft function when 4 is selected.
+    SwingLeft(); //function for swinging left.
+  }
+  if (ans2 == "5"){ //forward function when 5 is selected.
+    Forward(); //function for moving forwards.
+  }
+  if (ans2 == "6"){ //backward function when 6 is selected.
+    Backward(); //function for moving backwards.
+  }
+}
+
+void PointRight() {
+  a1 = 0; //sets the variables for motors to be high or low for pointing right.
+  a2 = 1;
+  b1 = 0;
+  b2 = 1;
+  c1 = 1;
+  c2 = 0;
+  d1 = 1;
+  d2 = 0;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void PointLeft() {
+  a1 = 1; //sets the variables for motors to be high or low for pointing left.
+  a2 = 0;
+  b1 = 1;
+  b2 = 0;
+  c1 = 0;
+  c2 = 1;
+  d1 = 0;
+  d2 = 1;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void SwingRight() {
+  a1 = 0; //sets the variables for motors to be high or low for swinging right.
+  a2 = 1;
+  b1 = 0;
+  b2 = 1;
+  c1 = 0;
+  c2 = 0;
+  d1 = 0;
+  d2 = 0;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void SwingLeft() {
+  a1 = 1; //sets the variables for motors to be high or low for swinging left.
+  a2 = 0;
+  b1 = 1;
+  b2 = 0;
+  c1 = 0;
+  c2 = 0;
+  d1 = 0;
+  d2 = 0;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void Forward() {
+  a1 = 0; //sets the variables for motors to be high or low for moving forwards.
+  a2 = 1;
+  b1 = 0;
+  b2 = 1;
+  c1 = 0;
+  c2 = 1;
+  d1 = 0;
+  d2 = 1;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void Backward() {
+  a1 = 1; //sets the variables for motors to be high or low for moving backwards.
+  a2 = 0;
+  b1 = 1;
+  b2 = 0;
+  c1 = 1;
+  c2 = 0;
+  d1 = 1;
+  d2 = 0;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void Coast() {
+  a1 = 1; //sets the variables for motors to be high or low for coast.
+  a2 = 1;
+  b1 = 1;
+  b2 = 1;
+  c1 = 1;
+  c2 = 1;
+  d1 = 1;
+  d2 = 1;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void Brake() {
+  a1 = 0; //sets the variables for motors to be high or low for brake.
+  a2 = 0;
+  b1 = 0;
+  b2 = 0;
+  c1 = 0;
+  c2 = 0;
+  d1 = 0;
+  d2 = 0;
+  Motor(); //function to perform the action based on the variables.
+}
+
+void Motor() {
+  digitalWrite(2, a1); //sets the motors based on the varibles that were set in the function of the action.
+  analogWrite(3, 255);
+  digitalWrite(4, a2);
+  analogWrite(5, 255);
+  digitalWrite(6, b1);
+  digitalWrite(7, b2);
+  digitalWrite(8, c1);
+  digitalWrite(9, c2);
+  analogWrite(10, 255);
+  analogWrite(11, 255);
+  digitalWrite(12, d1);
+  digitalWrite(13, d2);
+}
